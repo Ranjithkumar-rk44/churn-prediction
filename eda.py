@@ -55,3 +55,59 @@ plt.show()
 print("Chart 3 saved!")
 
 print("\n=== ALL CHARTS SAVED TO charts/ FOLDER ===")
+# ═══════════════════════════════════════
+# DAY 4 - DEEPER ANALYSIS & HEATMAP
+# ═══════════════════════════════════════
+
+# Chart 4: Monthly Charges vs Churn
+plt.figure(figsize=(8,5))
+sns.boxplot(x='Churn', y='MonthlyCharges', data=df)
+plt.title('Monthly Charges vs Churn')
+plt.tight_layout()
+plt.savefig('charts/monthly_charges_churn.png')
+plt.show()
+print("Chart 4 saved!")
+
+# Chart 5: Tenure vs Churn boxplot
+plt.figure(figsize=(8,5))
+sns.boxplot(x='Churn', y='tenure', data=df)
+plt.title('Tenure vs Churn')
+plt.tight_layout()
+plt.savefig('charts/tenure_churn.png')
+plt.show()
+print("Chart 5 saved!")
+
+# Chart 6: Churn by Internet Service
+plt.figure(figsize=(8,5))
+sns.countplot(x='InternetService', hue='Churn', data=df)
+plt.title('Churn by Internet Service Type')
+plt.tight_layout()
+plt.savefig('charts/churn_by_internet.png')
+plt.show()
+print("Chart 6 saved!")
+
+# Chart 7: Correlation Heatmap
+df2 = df.copy()
+df2['Churn'] = df2['Churn'].map({'Yes': 1, 'No': 0})
+df2['TotalCharges'] = pd.to_numeric(df2['TotalCharges'], errors='coerce')
+
+num_cols = df2[['tenure', 'MonthlyCharges', 'TotalCharges', 'Churn']]
+
+plt.figure(figsize=(8,5))
+sns.heatmap(num_cols.corr(), annot=True, cmap='coolwarm', fmt='.2f')
+plt.title('Correlation Heatmap')
+plt.tight_layout()
+plt.savefig('charts/correlation_heatmap.png')
+plt.show()
+print("Chart 7 saved!")
+
+# Print key findings
+print("\n=== DAY 4 KEY FINDINGS ===")
+print("Average monthly charge for churned customers:",
+      round(df[df['Churn']=='Yes']['MonthlyCharges'].mean(), 2))
+print("Average monthly charge for stayed customers:",
+      round(df[df['Churn']=='No']['MonthlyCharges'].mean(), 2))
+print("Average tenure for churned customers:",
+      round(df[df['Churn']=='Yes']['tenure'].mean(), 2))
+print("Average tenure for stayed customers:",
+      round(df[df['Churn']=='No']['tenure'].mean(), 2))
