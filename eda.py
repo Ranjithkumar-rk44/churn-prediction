@@ -1,8 +1,12 @@
+import matplotlib
+matplotlib.use('Agg')
 import pandas as pd
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 os.makedirs('charts', exist_ok=True)
+
 
 # Load the data
 df = pd.read_csv('data/WA_Fn-UseC_-Telco-Customer-Churn.csv')
@@ -111,3 +115,13 @@ print("Average tenure for churned customers:",
       round(df[df['Churn']=='Yes']['tenure'].mean(), 2))
 print("Average tenure for stayed customers:",
       round(df[df['Churn']=='No']['tenure'].mean(), 2))
+# Day 5 - my own code
+print("\n=== CHURN MEAN BY CONTRACT ===")
+print(df.groupby('Contract')['Churn'].map({'Yes':1,'No':0}).mean())
+
+print("\n=== INTERNET SERVICE TYPES ===")
+print(df['InternetService'].unique())
+
+print("\n=== AVERAGE TENURE BY INTERNET SERVICE ===")
+print(df.groupby('InternetService')['tenure'].mean())
+
