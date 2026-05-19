@@ -80,3 +80,28 @@ from sklearn.metrics import accuracy_score
 print(f"Logistic Regression: {accuracy_score(y_test, predictions):.2%}")
 print(f"Random Forest:       {accuracy_score(y_test, rf_predictions):.2%}")
 print(f"XGBoost:             {accuracy_score(y_test, xgb_predictions):.2%}")
+
+# ═══════════════════════════════════════
+# DAY 11 - SAVE THE BEST MODEL
+# ═══════════════════════════════════════
+import joblib
+import os
+
+os.makedirs('models', exist_ok=True)
+
+# Save Logistic Regression (our best model)
+joblib.dump(model, 'models/churn_model.pkl')
+joblib.dump(scaler, 'models/scaler.pkl')
+
+print("\n=== MODELS SAVED ===")
+print("churn_model.pkl saved!")
+print("scaler.pkl saved!")
+
+# Verify by loading back
+loaded_model = joblib.load('models/churn_model.pkl')
+loaded_scaler = joblib.load('models/scaler.pkl')
+
+test_predictions = loaded_model.predict(X_test)
+print("\nLoaded model accuracy:",
+      f"{accuracy_score(y_test, test_predictions):.2%}")
+print("Model saved and verified successfully!")
