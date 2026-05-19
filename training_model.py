@@ -48,3 +48,35 @@ model.fit(X_train, y_train)
 predictions = model.predict(X_test)
 print("\n=== LOGISTIC REGRESSION RESULTS ===")
 print(classification_report(y_test, predictions))
+
+# ═══════════════════════════════════════
+# DAY 10 - RANDOM FOREST AND XGBOOST
+# ═══════════════════════════════════════
+from sklearn.ensemble import RandomForestClassifier
+from xgboost import XGBClassifier
+
+# Train Random Forest
+rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
+rf_model.fit(X_train, y_train)
+rf_predictions = rf_model.predict(X_test)
+
+print("\n=== RANDOM FOREST RESULTS ===")
+print(classification_report(y_test, rf_predictions))
+
+# Train XGBoost
+xgb_model = XGBClassifier(eval_metric='logloss', random_state=42)
+xgb_model.fit(X_train, y_train)
+xgb_predictions = xgb_model.predict(X_test)
+
+print("\n=== XGBOOST RESULTS ===")
+print(classification_report(y_test, xgb_predictions))
+
+# Compare all 3 models
+print("\n=== MODEL COMPARISON ===")
+print("Model                Accuracy")
+print("─────────────────────────────")
+
+from sklearn.metrics import accuracy_score
+print(f"Logistic Regression: {accuracy_score(y_test, predictions):.2%}")
+print(f"Random Forest:       {accuracy_score(y_test, rf_predictions):.2%}")
+print(f"XGBoost:             {accuracy_score(y_test, xgb_predictions):.2%}")
